@@ -18,11 +18,15 @@
     
 //     方法2
 //    [self drawLine];
-    [self drawRect];
+//    [self drawRect];
+    
 //    // 方法3
 //    [self drawRectByUIKit];
     
+    // 方法4
+    [self drawWithBezierPath];
     
+//    [self drawText];
 }
 
 
@@ -48,10 +52,10 @@
     CGContextSetLineJoin(context, kCGLineJoinRound);//设置连接点样式，(20,100)是连接点
     /*设置线段样式
      phase:虚线开始的位置
-     lengths:虚线长度间隔（例如下面的定义说明第一条线段长度8，然后间隔3重新绘制8点的长度线段，当然这个数组可以定义更多元素）
-     count:虚线数组元素个数
+     lengths:数组， 如果交替绘制 @{10,10}， 这意思就是先绘制10个点， 再跳过10个点的实现，以此类推， 如果是@{10，50，20}， 则意思变成 先绘制10个点， 再跳过50个点，再绘制20个点， 在跳过10个点，再绘制50个点，以此类推
+     count:lengths数组长度
      */
-    CGFloat lengths[2] = { 18, 9 };
+    CGFloat lengths[2] = { 9, 6 };
     CGContextSetLineDash(context, 0, lengths, 2);
     /*设置阴影
      context:图形上下文
@@ -128,6 +132,42 @@
     
     [[UIColor redColor]setStroke];
     UIRectFrame(rect2);//绘制矩形(只有边框)
+}
+
+// 方法4：UIBezierPath
+- (void)drawWithBezierPath{
+    // 1.创建路径对象
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    // 2.添加路径
+    [path moveToPoint:CGPointMake(20, 150)];
+    [path addLineToPoint:CGPointMake(20, 200)];
+    [path addLineToPoint:CGPointMake(300, 200)];
+    // 3.设置属性
+    path.lineWidth = 2;
+    CGFloat lengths[2] = { 9, 6 };
+    [path setLineDash:lengths count:2 phase:0];
+    
+    [[UIColor redColor] setStroke];
+    [[UIColor greenColor] setFill];
+//    [[UIColor redColor] set];
+
+    
+    // 4.绘制路径
+    [path fill];
+    [path stroke];
+}
+
+// 绘制文字
+-(void)drawText{
+    //绘制到指定的区域内容
+    NSString *str=@"Star Walk is the most beautiful stargazing app you’ve ever seen on a mobile device. It will become your go-to interactive astro guide to the night sky, following your every movement in real-time and allowing you to explore over 200, 000 celestial bodies with extensive information about stars and constellations that you find.";
+    CGRect rect= CGRectMake(20, 50, 280, 300);
+    UIFont *font=[UIFont systemFontOfSize:18];//设置字体
+    UIColor *color=[UIColor redColor];//字体颜色
+    NSMutableParagraphStyle *style=[[NSMutableParagraphStyle alloc]init];//段落样式
+    NSTextAlignment align=NSTextAlignmentLeft;//对齐方式
+    style.alignment=align;
+    [str drawInRect:rect withAttributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color,NSParagraphStyleAttributeName:style}];
 }
 
 
