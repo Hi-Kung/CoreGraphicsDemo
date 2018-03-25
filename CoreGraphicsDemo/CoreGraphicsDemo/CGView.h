@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, CGViewType) {
+    CGViewTypeOrigin,
+    CGViewTypeCoreGpaphics,
+    CGViewTypeUIKit,
+    CGViewTypeText,
+    CGViewTypeSmileFace,
+    CGViewTypeParabola,
+    CGViewTypePee
+};
+
 @interface CGView : UIView
+@property (nonatomic, assign) CGFloat progress;
+@property (nonatomic, assign) CGFloat xSpeed;
+@property (nonatomic, assign) CGViewType type;
+
+-(instancetype)initWithFrame:(CGRect)frame type:(CGViewType)type;
 
 @end

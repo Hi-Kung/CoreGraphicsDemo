@@ -16,6 +16,9 @@
 		463848CC2062ACC800079676 /* CoreGraphicsDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 463848CB2062ACC800079676 /* CoreGraphicsDemoTests.m */; };
 		463848D72062ACC900079676 /* CoreGraphicsDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 463848D62062ACC900079676 /* CoreGraphicsDemoUITests.m */; };
 		463848E62062B7F100079676 /* CGView.m in Sources */ = {isa = PBXBuildFile; fileRef = 463848E52062B7F100079676 /* CGView.m */; };
+		463848E92067A11500079676 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 463848E82067A11500079676 /* TableViewController.m */; };
+		463848EC2067A7FF00079676 /* CGModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 463848EB2067A7FE00079676 /* CGModel.m */; };
+		463848EE2067B7B000079676 /* pee.png in Resources */ = {isa = PBXBuildFile; fileRef = 463848ED2067B7B000079676 /* pee.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,11 @@
 		463848D82062ACC900079676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		463848E42062B7F100079676 /* CGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGView.h; sourceTree = "<group>"; };
 		463848E52062B7F100079676 /* CGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGView.m; sourceTree = "<group>"; };
+		463848E72067A11500079676 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		463848E82067A11500079676 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		463848EA2067A7FE00079676 /* CGModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGModel.h; sourceTree = "<group>"; };
+		463848EB2067A7FE00079676 /* CGModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGModel.m; sourceTree = "<group>"; };
+		463848ED2067B7B000079676 /* pee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pee.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +116,10 @@
 				463848B52062ACC800079676 /* AppDelegate.m */,
 				463848B72062ACC800079676 /* ViewController.h */,
 				463848B82062ACC800079676 /* ViewController.m */,
+				463848E72067A11500079676 /* TableViewController.h */,
+				463848E82067A11500079676 /* TableViewController.m */,
+				463848EA2067A7FE00079676 /* CGModel.h */,
+				463848EB2067A7FE00079676 /* CGModel.m */,
 				463848E42062B7F100079676 /* CGView.h */,
 				463848E52062B7F100079676 /* CGView.m */,
 				463848BA2062ACC800079676 /* Main.storyboard */,
@@ -122,6 +134,7 @@
 		463848B12062ACC800079676 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				463848ED2067B7B000079676 /* pee.png */,
 				463848B22062ACC800079676 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -251,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463848EE2067B7B000079676 /* pee.png in Resources */,
 				463848C12062ACC800079676 /* LaunchScreen.storyboard in Resources */,
 				463848BE2062ACC800079676 /* Assets.xcassets in Resources */,
 				463848BC2062ACC800079676 /* Main.storyboard in Resources */,
@@ -281,7 +295,9 @@
 				463848E62062B7F100079676 /* CGView.m in Sources */,
 				463848B92062ACC800079676 /* ViewController.m in Sources */,
 				463848B62062ACC800079676 /* AppDelegate.m in Sources */,
+				463848E92067A11500079676 /* TableViewController.m in Sources */,
 				463848B32062ACC800079676 /* main.m in Sources */,
+				463848EC2067A7FF00079676 /* CGModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

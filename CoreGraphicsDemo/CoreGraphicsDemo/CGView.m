@@ -8,31 +8,71 @@
 
 #import "CGView.h"
 
+#define RadiusOfDegree(x) (x*M_PI/180.0)
+
 @implementation CGView
+
+-(instancetype)initWithFrame:(CGRect)frame type:(CGViewType)type{
+    if (self = [super initWithFrame:frame]) {
+//        NSLog(@"------> %s",__func__);
+        _type = type;
+        _xSpeed = 2.0;
+        
+    }
+    return self;
+}
+
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx{
+//    NSLog(@"------> %s",__func__);
+    [super drawLayer:layer inContext:ctx];
+}
 
 // 绘图只能在此方法中调用，否则无法得到当前图形上下文
 
 - (void)drawRect:(CGRect)rect{
-    // 方法1
-//    [self originMethod];
-    
-//     方法2
-//    [self drawLine];
-//    [self drawRect];
-    
-//    // 方法3
-//    [self drawRectByUIKit];
-    
-    // 方法4
-    [self drawWithBezierPath];
-    
-//    [self drawText];
+//    NSLog(@"------> %s",__func__);
+    switch (self.type) {
+        case CGViewTypeOrigin:
+            // 方法1
+            [self originMethod];
+            break;
+        case CGViewTypeCoreGpaphics:{
+            // 方法2
+            [self drawLine];
+            //    [self drawRect];
+        }
+            break;
+        case CGViewTypeUIKit:{
+            // 方法3
+//            [self drawRectByUIKit];
+            // 方法4
+            [self drawWithBezierPath];
+        }
+            break;
+        case CGViewTypeText:
+            [self drawText];
+            break;
+        case CGViewTypeSmileFace:
+            [self drawSmileFace];
+            break;
+        case CGViewTypeParabola:
+            [self drawParabola];
+            break;
+        case CGViewTypePee:
+            [self drawPee];
+            break;
+        default:
+            break;
+    }
 }
 
 
 - (void)originMethod{
     //1. 取得图形上下文对象
     CGContextRef context = UIGraphicsGetCurrentContext();
+
+//    //** 存储图形上下文当前旧的状态
+//    CGContextSaveGState(context);
 
     //2.创建路径对象
     CGMutablePathRef path = CGPathCreateMutable();
@@ -78,6 +118,9 @@
     
     //6.释放对象
     CGPathRelease(path);
+    
+//    //** 恢复到之前保存的图形状态
+//    CGContextRestoreGState(context);
 }
 
 // 方法2：Core Graphics 内部对创建对象添加到上下文这两步操作进行了封装，可以一步完成。另外前面也说过UIKit内部其实封装了一些以“UI”开头的方法帮助大家进行图形绘制
@@ -136,6 +179,7 @@
 
 // 方法4：UIBezierPath
 - (void)drawWithBezierPath{
+
     // 1.创建路径对象
     UIBezierPath *path = [UIBezierPath bezierPath];
     // 2.添加路径
@@ -148,13 +192,14 @@
     [path setLineDash:lengths count:2 phase:0];
     
     [[UIColor redColor] setStroke];
-    [[UIColor greenColor] setFill];
+    [[UIColor blueColor] setFill];
 //    [[UIColor redColor] set];
 
     
     // 4.绘制路径
     [path fill];
     [path stroke];
+    
 }
 
 // 绘制文字
@@ -170,5 +215,89 @@
     [str drawInRect:rect withAttributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color,NSParagraphStyleAttributeName:style}];
 }
 
+- (void)drawSmileFace{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGFloat faceR = 60,mouthR = 36,eyeW = 15,eyeH = 10;
+    CGFloat start = -M_PI_2, end = start+2*M_PI*self.progress;
+
+    // 轮廓
+    CGContextAddArc(context, self.center.x, self.center.y, faceR, start, end, NO);
+
+    // 左眼睛
+    CGContextMoveToPoint(context, self.center.x-eyeW*2, self.center.y);
+    CGContextAddLineToPoint(context, self.center.x-eyeW*1.5, self.center.y-eyeH);
+    CGContextAddLineToPoint(context, self.center.x-eyeW, self.center.y);
+
+    // 右眼
+    CGContextMoveToPoint(context, self.center.x+eyeW*2, self.center.y);
+    CGContextAddLineToPoint(context, self.center.x+eyeW*1.5, self.center.y-eyeH);
+    CGContextAddLineToPoint(context, self.center.x+eyeW, self.center.y);
+    
+    // 属性
+    [[UIColor greenColor] setStroke];
+    CGContextSetLineWidth(context, 2);
+    
+    // 渲染路径
+    //    CGContextDrawPath(context, kCGPathStroke);
+    CGContextStrokePath(context);
+
+    CGContextSaveGState(context);
+//    CGContextBeginPath(context);
+    // 嘴巴
+    CGFloat mouthAngel = 80*self.progress;
+    CGContextAddArc(context, self.center.x, self.center.y+10, mouthR, M_PI_2+RadiusOfDegree(mouthAngel), M_PI_2-RadiusOfDegree(mouthAngel), YES);
+    [[UIColor redColor] setStroke];
+    CGContextSetLineWidth(context, 2);
+    
+    CGContextStrokePath(context);
+
+    CGContextRestoreGState(context);
+    
+}
+
+// 抛物线
+- (void)drawParabola {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGFloat maxW = self.bounds.size.width, originY = 100, g = 0.05;
+    CGFloat distance = maxW*self.progress;
+    CGContextMoveToPoint(context, 0, originY);
+    for (NSInteger x = 0; x < distance; x++) {
+        CGFloat t = x /self.xSpeed, y = originY+g*t*t*0.5;
+        CGContextAddLineToPoint(context, x, y);
+    }
+    CGContextSetLineWidth(context, 2);
+    [[UIColor blueColor] setStroke];
+    CGContextStrokePath(context);
+
+}
+
+- (void)drawPee {
+//     UIBezierPath
+    
+    CGFloat maxW = self.bounds.size.width, originY = 100, g = 0.05;
+    
+    CGFloat boyH = 60;
+    
+    CGFloat x = 0.6*boyH + maxW*self.progress, t = x/self.xSpeed, y = originY+g*t*t*0.5;
+
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    for (NSInteger i = 0.6*boyH; i < x; i=i+4) {
+        t = i/self.xSpeed, y = originY+g*t*t*0.5;
+        [path moveToPoint:CGPointMake(i, y)];
+        [path addArcWithCenter:CGPointMake(i, y) radius:2 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    }
+    [[UIColor orangeColor] setStroke];
+    [path stroke];
+    
+    UIImage *boy = [UIImage imageNamed:@"pee"];
+    [boy drawInRect:CGRectMake(0, originY-boyH/3.0*2, boyH, boyH)];
+
+}
+
+-(void)setProgress:(CGFloat)progress{
+    _progress = progress;
+    [self setNeedsDisplay];
+}
 
 @end
